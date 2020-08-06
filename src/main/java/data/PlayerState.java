@@ -7,6 +7,7 @@ public class PlayerState {
     private boolean isShowAnswerButtonEnabled = false;
     private boolean isAnswerButtonEnabled = false;
     private boolean isAnswerSpinnerEnabled = false;
+    private boolean isSeekBarAnswerVisible = false;
 
     public boolean isStartGameActivity() {
         return startGameActivity;
@@ -48,6 +49,14 @@ public class PlayerState {
         isAnswerSpinnerEnabled = answerSpinnerEnabled;
     }
 
+    public boolean isSeekBarAnswerVisible() {
+        return isSeekBarAnswerVisible;
+    }
+
+    public void setSeekBarAnswerVisible(boolean seekBarAnswerVisible) {
+        isSeekBarAnswerVisible = seekBarAnswerVisible;
+    }
+
     @Override
     public String toString() {
         return "PlayerState{" +
@@ -56,6 +65,7 @@ public class PlayerState {
                 ", isShowAnswerButtonEnabled=" + isShowAnswerButtonEnabled +
                 ", isAnswerButtonEnabled=" + isAnswerButtonEnabled +
                 ", isAnswerSpinnerEnabled=" + isAnswerSpinnerEnabled +
+                ", isSeekBarAnswerVisible=" + isSeekBarAnswerVisible +
                 '}';
     }
 }

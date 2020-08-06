@@ -9,7 +9,7 @@ public class GameState {
     private List<String> playersAnswers;
     private Player player;
     private String activeName = "stub";
-    private String correctNumber = "-";
+    private int correctNumber = 0;
     private String firstQuestion = "first question";
     private String secondQuestion = "second question";
     private Boolean isConnected = false;
@@ -36,11 +36,11 @@ public class GameState {
         this.activeName = activeName;
     }
 
-    public String getCorrectNumber() {
+    public int getCorrectNumber() {
         return correctNumber;
     }
 
-    public void setCorrectNumber(String correctNumber) {
+    public void setCorrectNumber(int correctNumber) {
         this.correctNumber = correctNumber;
     }
 

@@ -89,7 +89,7 @@ public class GameLogic {
         } else {
             currentQuestion = questions.get(random.nextInt(questions.size()));
             questions.remove(currentQuestion);
-            correctNumber = random.nextInt(10) + 1;
+            correctNumber = random.nextInt(100) + 1;
         }
         getGameStates().forEach(it -> {
             it.getPlayer().setNewScore(0);
@@ -100,12 +100,12 @@ public class GameLogic {
             it.setSecondQuestion(currentQuestion.split(" or ")[1]);
             it.setActiveName(activePlayer.getName());
             it.getPlayer().getPlayerState().setShowAnswerButtonEnabled(false);
+            it.setCorrectNumber(correctNumber);
+            it.getPlayer().getPlayerState().setSeekBarAnswerVisible(false);
             if (it.getPlayer().isActive()) {
-                it.setCorrectNumber(String.valueOf(correctNumber));
                 it.getPlayer().getPlayerState().setAnswerButtonEnabled(false);
                 it.getPlayer().getPlayerState().setAnswerSpinnerEnabled(false);
             } else {
-                it.setCorrectNumber("-");
                 it.getPlayer().getPlayerState().setAnswerButtonEnabled(true);
                 it.getPlayer().getPlayerState().setAnswerSpinnerEnabled(true);
             }
@@ -142,18 +142,16 @@ public class GameLogic {
             int guessAnswer = player.getCurrentAnswer();
             int prizeScore;
             int diff = Math.abs(correctNumber - guessAnswer);
-            switch (diff) {
-                case 0:
-                    prizeScore = 4;
-                    break;
-                case 1:
-                    prizeScore = 3;
-                    break;
-                case 2:
-                    prizeScore = 2;
-                    break;
-                default:
-                    prizeScore = 0;
+            if (diff < 10) {
+                prizeScore = 4;
+            } else if (diff < 20) {
+                prizeScore = 3;
+            } else if (diff < 30) {
+                prizeScore = 2;
+            } else if (diff < 40) {
+                prizeScore = 1;
+            } else {
+                prizeScore = 0;
             }
             player.setNewScore(prizeScore);
             player.addScore(player.getNewScore());
@@ -163,6 +161,7 @@ public class GameLogic {
         activePlayer.addScore(activePlayer.getNewScore());
         activePlayer.getPlayerState().setShowAnswerButtonEnabled(false);
         gameStates.forEach(it -> it.getPlayer().getPlayerState().setReadyButtonEnabled(true));
+        gameStates.forEach(it -> it.getPlayer().getPlayerState().setSeekBarAnswerVisible(true));
         updateAnswerWithScores();
     }
 
