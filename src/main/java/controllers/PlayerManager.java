@@ -32,6 +32,7 @@ public class PlayerManager extends Thread{
     public void run() {
         playerController.setGameState(gameLogic.createGameState());
         playerController.getGameState().setConnected(true);
+        playerController.getGameState().setGameStarted(gameLogic.isGameStarted());
         updateGameState();
 
         while (true) {
@@ -44,7 +45,7 @@ public class PlayerManager extends Thread{
 
             if(message == null || message.equals("Error")) {
                 System.out.println("ERROR in read message");
-                App.getPlayerManagers().remove(this);
+                App.removePlayerManger(this);
                 gameLogic.addDisconnectPlayer(playerController.getGameState().getPlayer());
                 break;
             }
@@ -65,6 +66,7 @@ public class PlayerManager extends Thread{
             String name = message.replace("Reconnect:", "");
             Optional<GameState> gameState = gameLogic.getGameStates().stream().filter(it -> it.getPlayer().getName().equals(name)).findFirst();
             if (gameState.isPresent()) {
+                gameLogic.getGameStates().remove(playerController.getGameState());
                 playerController.setGameState(gameState.get());
                 gameState.get().getPlayer().setId(playerController.getPlayerId());
                 playerController.sendMessage("ReconnectResponse:Success");

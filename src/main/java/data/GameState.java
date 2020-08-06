@@ -13,6 +13,7 @@ public class GameState {
     private String firstQuestion = "first question";
     private String secondQuestion = "second question";
     private Boolean isConnected = false;
+    private Boolean isGameStarted = false;
 
     public GameState(List<String> connectedPlayers, List<String> playersAnswers) {
         this.connectedPlayers = connectedPlayers;
@@ -83,6 +84,14 @@ public class GameState {
         isConnected = connected;
     }
 
+    public Boolean getGameStarted() {
+        return isGameStarted;
+    }
+
+    public void setGameStarted(Boolean gameStarted) {
+        isGameStarted = gameStarted;
+    }
+
     @Override
     public String toString() {
         return "GameState{" +
@@ -94,6 +103,7 @@ public class GameState {
                 ", firstQuestion='" + firstQuestion + '\'' +
                 ", secondQuestion='" + secondQuestion + '\'' +
                 ", isConnected=" + isConnected +
+                ", isGameStarted=" + isGameStarted +
                 '}';
     }
 }

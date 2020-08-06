@@ -20,6 +20,12 @@ public class GameLogic {
     private Random random = new Random();
     private int correctNumber = 0;
     private List<String> disconnectedPlayers = new ArrayList<>();
+    private List<String> questions;
+    private boolean isGameStarted = false;
+
+    public GameLogic () {
+        questions = getQuestions();
+    }
 
     public void createNewPlayer(GameState gameState, String name, int id) {
         Player player = new Player(name, id);
@@ -78,11 +84,11 @@ public class GameLogic {
     public void startTurn() {
         playersAnswers.clear();
         newActivePlayer();
-        if(getQuestions().isEmpty()){
+        if(questions.isEmpty()){
             currentQuestion = "End or Game";
         } else {
-            currentQuestion = getQuestions().get(random.nextInt(getQuestions().size()));
-            getQuestions().remove(currentQuestion);
+            currentQuestion = questions.get(random.nextInt(questions.size()));
+            questions.remove(currentQuestion);
             correctNumber = random.nextInt(10) + 1;
         }
         getGameStates().forEach(it -> {
@@ -119,9 +125,11 @@ public class GameLogic {
     }
 
     public void startGame() {
+        isGameStarted = true;
         gameStates.forEach(it -> {
             it.getPlayer().getPlayerState().setStartGameActivity(true);
             it.getPlayer().getPlayerState().setReadyButtonEnabled(true);
+            it.setGameStarted(true);
         });
     }
 
@@ -186,5 +194,9 @@ public class GameLogic {
 
     public void removeDisconnectPlayer(Player player) {
         disconnectedPlayers.remove(player.getName());
+    }
+
+    public boolean isGameStarted() {
+        return isGameStarted;
     }
 }
